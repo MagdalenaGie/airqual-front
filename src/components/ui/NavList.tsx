@@ -2,27 +2,20 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const NavigationList = styled.ul`
+  text-align: center;
   list-style-type: none;
+  margin: 0;
+  padding: 0;
 `;
 
 const NavigationLink = styled(NavLink)`
+  display: inline-block;
   justify-content: center;
-  display:inline-block;
-  text-align: center;
   text-decoration: none;
-  width: 80%;
-  border: 2px solid grey;
-  border-radius: 9px;
-  padding: 5px;
-  margin: 10px;
-`;
-
-const Button = styled.div`
-  border: 1px solid grey;
-  border-radius: 5px;
-  justify-content: center;
-  width: 80%;
-  padding: 20px;
+  color: white;
+  text-transform: uppercase;
+  margin: 10px 0;
+  padding: 5px 0;
 `;
 
 interface Props {
@@ -36,9 +29,9 @@ export const NavList : React.FC<Props> = ({authenticated}) => {
         <li key={3}><NavigationLink to="/contact">Kontakt</NavigationLink></li>
     ];
     const forAuth = [
-        <li key={1}><NavigationLink to="/home">O projekcie</NavigationLink></li>,
-        <li key={2}><NavigationLink to="/plots">Zobacz wykresy</NavigationLink></li>,
-        <li key={3}><NavigationLink to="/controllers">Sprawdź czujniki</NavigationLink></li>,
+        <li key={1}><NavigationLink to="/home">Informacje</NavigationLink></li>,
+        <li key={2}><NavigationLink to="/plots">Wykresy</NavigationLink></li>,
+        <li key={3}><NavigationLink to="/controllers">Czujniki</NavigationLink></li>,
         <li key={4}><NavigationLink to="/logout">Wyloguj</NavigationLink></li>,
         <li key={5}><NavigationLink to="/contact">Kontakt</NavigationLink></li>
     ];

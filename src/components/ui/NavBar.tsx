@@ -1,9 +1,10 @@
-import LogoSrc from './../../media/logo/aghlogo.png';
+import LogoSrc from './../../media/logo/aghlogowh.png';
 import styled from 'styled-components';
 import { NavList } from './NavList';
 
 const Column = styled.nav`
     background-color: rgba(255, 255, 255, 1);
+    background-color: #2E4961;
     justify-content: center;
 `;
 const Image = styled.img`
