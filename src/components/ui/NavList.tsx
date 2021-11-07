@@ -19,25 +19,15 @@ const NavigationLink = styled(NavLink)`
 `;
 
 interface Props {
- authenticated: boolean;
 }
 
-export const NavList : React.FC<Props> = ({authenticated}) => {
-    const forNotAuth = [
-        <li key={1}><NavigationLink to="/home">O projekcie</NavigationLink></li>,
-        <li key={2}><NavigationLink to="/login">Zaloguj się</NavigationLink></li>,
-        <li key={3}><NavigationLink to="/contact">Kontakt</NavigationLink></li>
-    ];
-    const forAuth = [
-        <li key={1}><NavigationLink to="/home">Informacje</NavigationLink></li>,
+export const NavList : React.FC<Props> = () => {
+    const navContent = [
+        <li key={1}><NavigationLink to="/">Home</NavigationLink></li>,
         <li key={2}><NavigationLink to="/plots">Wykresy</NavigationLink></li>,
-        <li key={3}><NavigationLink to="/controllers">Czujniki</NavigationLink></li>,
-        <li key={4}><NavigationLink to="/logout">Wyloguj</NavigationLink></li>,
-        <li key={5}><NavigationLink to="/contact">Kontakt</NavigationLink></li>
+        <li key={3}><NavigationLink to="/controllers">Czujniki</NavigationLink></li>
     ];
-
-    var navContent =  authenticated ? forAuth : forNotAuth;
-
+    
     return (
         <NavigationList>
             {navContent}

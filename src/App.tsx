@@ -1,10 +1,17 @@
-import React from 'react';
-import {Layout, NavBar, PageContent} from './components';
+import useToken  from './components/user/useToken';
+import {Layout, Login, NavBar, PageContent} from './components';
 
 function App() {
+  const {token, setToken, unsetToken} = useToken();
+  console.log("token in app:", token);
+
+  if(token === ""){
+    return <Login setToken={setToken}/>;
+  }
+
   return (
     <Layout>
-      <NavBar authenticated={true}/>
+      <NavBar unsetToken={unsetToken}/>
       <PageContent/>
     </Layout>
   );
