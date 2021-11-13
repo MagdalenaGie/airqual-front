@@ -1,5 +1,7 @@
 import { Card, CardContent, Typography } from '@mui/material';
 import styled from 'styled-components';
+import { ErrorTable } from './ErrorTable';
+import { ParametersTable } from './ParametersTable';
 
 const CustomCard = styled(Card)({
     margin: '20px',
@@ -16,26 +18,31 @@ const CustomCardContent = styled(CardContent)({
     
 })
 
+interface measurement {
+    name: string,
+    value: number
+}
+
 interface Props {
     controllerName: string,
-    measurements: string,
+    measurements: measurement[],
     healthCheck: boolean
 }
 
 export const ControllerDetails : React.FC<Props> = ({controllerName, measurements, healthCheck}) => {
+
     return (
         <CustomCard sx={{ minWidth: 275 }} className={healthCheck ? "healthy" : "ill"} >
             <CustomCardContent>
-                <Typography variant="h5" component="div">
+                <Typography variant="h6" component="div">
                     {controllerName}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    {measurements}
-                    Also:
-                    1.list of errors (if there are any) - details for every single measurement healtchcheck
-                    2.list of recent measurements
-                    3.chart with this controller recent measurements
+                    Jakiś krótki opis? 
                 </Typography>
+                <ParametersTable/>
+                <br/>
+                <ErrorTable/>
             </CustomCardContent>
         </CustomCard>
     );
