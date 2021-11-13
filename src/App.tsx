@@ -1,25 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import useToken  from './components/user/useToken';
+import {Layout, Login, NavBar, PageContent} from './components';
 
 function App() {
+  const {token, setToken, unsetToken} = useToken();
+  console.log("token in app:", token);
+
+  if(token === ""){
+    return <Login setToken={setToken}/>;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <NavBar unsetToken={unsetToken}/>
+      <PageContent/>
+    </Layout>
   );
 }
 
