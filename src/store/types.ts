@@ -2,6 +2,10 @@ export const USER_LOGIN_REQUEST = "USER_LOGIN_REQUEST";
 export const USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
 export const USER_LOGIN_FAILURE = "USER_LOGIN_FAILURE";
 
+export const USER_LOGOUT = "USER_LOGOUT";
+
+export const SET_INTERVAL_ID = "SET_INTERVAL_ID";
+
 export const GET_DATA_REQUEST = "GET_DATA_REQUEST";
 export const GET_DATA_SUCCESS = "GET_DATA_SUCCESS";
 export const GET_DATA_FAILURE = "GET_DATA_FAILURE";
@@ -51,8 +55,9 @@ export interface StateModel{
     isAuth: boolean,
     userData: UserDataModel | null,
     dataArray: DataResponseModel[],
-    statusArray: StatusResponseModel[],
-    error: string | null
+    statusArray: StatusResponseModel | null,
+    error: string | null,
+    timerId: number
 }
 
 interface UserLoginSuccess {
@@ -67,6 +72,18 @@ interface UserLoginFailure {
     payload: {
         message: string
     }
+}
+
+interface UserLogout {
+    type: typeof USER_LOGOUT;
+    payload: null;
+}
+
+interface SetIntervalId {
+    type: typeof SET_INTERVAL_ID;
+    payload: {
+        intervalId: number;
+    };
 }
 
 interface GetDataSuccess {
@@ -86,7 +103,7 @@ interface GetDataFailure {
 interface GetStatusSuccess {
     type: typeof GET_STATUS_SUCCESS;
     payload: {
-        data: StatusResponseModel[]
+        data: StatusResponseModel
     }
 }
 
@@ -97,7 +114,7 @@ interface GetStatusFailure {
     }
 }
 
-export type actionTypes = UserLoginSuccess | UserLoginFailure | GetDataSuccess | GetDataFailure| GetStatusSuccess | GetStatusFailure;
-export type AuthActionTypes = UserLoginSuccess | UserLoginFailure;
+export type actionTypes = UserLoginSuccess | UserLoginFailure | UserLogout | SetIntervalId | GetDataSuccess | GetDataFailure| GetStatusSuccess | GetStatusFailure;
+export type AuthActionTypes = UserLoginSuccess | UserLoginFailure | UserLogout;
 export type DataActionTypes = GetDataSuccess | GetDataFailure;
 export type StatusActionTypes = GetStatusSuccess | GetStatusFailure;

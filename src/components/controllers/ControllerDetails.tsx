@@ -1,5 +1,8 @@
 import { Card, CardContent, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { StoreState } from '../../store/rootReducer';
+import { StatusResponseModel } from '../../store/types';
 import { ErrorTable } from './ErrorTable';
 import { ParametersTable } from './ParametersTable';
 
@@ -18,21 +21,16 @@ const CustomCardContent = styled(CardContent)({
     
 })
 
-interface measurement {
-    name: string,
-    value: number
-}
-
 interface Props {
-    controllerName: string,
-    measurements: measurement[],
-    healthCheck: boolean
+    controllerName: string
 }
 
-export const ControllerDetails : React.FC<Props> = ({controllerName, measurements, healthCheck}) => {
+export const ControllerDetails : React.FC<Props> = ({controllerName}) => {
+    var statusData = useSelector((state: StoreState) => state.state.statusArray) as StatusResponseModel;
+    var healthCheck = statusData[controllerName as keyof StatusResponseModel];
 
     return (
-        <CustomCard sx={{ minWidth: 275 }} className={healthCheck ? "healthy" : "ill"} >
+        <CustomCard sx={{ minWidth: 275 }} className={healthCheck==="00" ? "healthy" : "ill"} >
             <CustomCardContent>
                 <Typography variant="h6" component="div">
                     {controllerName}
@@ -42,7 +40,7 @@ export const ControllerDetails : React.FC<Props> = ({controllerName, measurement
                 </Typography>
                 <ParametersTable/>
                 <br/>
-                <ErrorTable/>
+                <ErrorTable name={controllerName} errCode={healthCheck as string} errTime={statusData.datetime}/>
             </CustomCardContent>
         </CustomCard>
     );

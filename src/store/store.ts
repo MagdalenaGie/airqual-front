@@ -8,7 +8,6 @@ function configureStore(): Store<StoreState> {
     const middlewareEnhancer = applyMiddleware(...middlewares);
     const enhancers = [middlewareEnhancer];
   
-  
     const composedEnhancers = composeWithDevTools(...enhancers);
       const store = createStore(rootReducer, composedEnhancers);
   

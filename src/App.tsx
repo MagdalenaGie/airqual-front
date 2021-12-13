@@ -1,17 +1,20 @@
-import useToken  from './components/user/useToken';
 import {Layout, Login, NavBar, PageContent} from './components';
+import { useSelector } from 'react-redux';
+import { StoreState } from './store/rootReducer';
 
 function App() {
-  const {token, setToken, unsetToken} = useToken();
-  console.log("token in app:", token);
 
-  if(token === ""){
-    return <Login setToken={setToken}/>;
+  const isAuthentificated = useSelector((state: StoreState) => state.state.isAuth);
+  const authToken = useSelector((state: StoreState) => state.state.userData?.token);
+  console.log("token in app:", authToken);
+
+  if( !isAuthentificated ){
+    return <Login/>;
   }
 
   return (
     <Layout>
-      <NavBar unsetToken={unsetToken}/>
+      <NavBar/>
       <PageContent/>
     </Layout>
   );

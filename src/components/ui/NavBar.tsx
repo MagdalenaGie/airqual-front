@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { NavList } from './NavList';
 import { useHistory } from 'react-router-dom';
 import { Button } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../store/actions';
+import { StoreState } from '../../store/rootReducer';
 
 const Column = styled.nav`
     background-color: #236133;
@@ -27,18 +30,21 @@ const FakeNavLinkButton = styled(Button)({
 })
 
 interface Props {
-    unsetToken: () => void
 }
 
-export const NavBar : React.FC<Props> = ({unsetToken}) => {
+export const NavBar : React.FC<Props> = () => {
 
+    let dispatch = useDispatch();
     let history = useHistory();
 
+    const timerId = useSelector((state: StoreState) => state.state.timerId)!;
+
     const handleLogout =() => {
-      unsetToken();
+      clearInterval(timerId);
+      dispatch(logout());
       history.push("/");
-      console.log("after redirect");
     }
+    
     return (
         <Column>
             <Image src={LogoSrc}/>

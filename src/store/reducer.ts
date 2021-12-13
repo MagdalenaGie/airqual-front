@@ -1,11 +1,12 @@
-import {actionTypes, GET_DATA_FAILURE, GET_DATA_SUCCESS, GET_STATUS_FAILURE, GET_STATUS_SUCCESS, StateModel, USER_LOGIN_FAILURE, USER_LOGIN_SUCCESS} from './types';
+import {actionTypes, GET_DATA_FAILURE, GET_DATA_SUCCESS, GET_STATUS_FAILURE, GET_STATUS_SUCCESS, SET_INTERVAL_ID, StateModel, USER_LOGIN_FAILURE, USER_LOGIN_SUCCESS, USER_LOGOUT} from './types';
 
 const initialState: StateModel = {
     isAuth: false,
     userData: null,
     dataArray: [],
-    statusArray: [],
-    error: null
+    statusArray: null,
+    error: null,
+    timerId: 0
 }
 
 function reducer(state = initialState, action: actionTypes): StateModel {
@@ -26,11 +27,27 @@ function reducer(state = initialState, action: actionTypes): StateModel {
                 error: action.payload.message
             }
         }
+        case SET_INTERVAL_ID:{
+            return{
+                ...state,
+                timerId: action.payload.intervalId
+            }
+        }
+        case USER_LOGOUT:{
+            // something goes on...
+            clearInterval(state.timerId);
+            return {
+                ...state,
+                userData: null,
+                isAuth: false,
+                timerId: 0
+            }
+        }
         case GET_DATA_SUCCESS:{
             // something goes on...
             return {
                 ...state,
-                dataArray: [...action.payload.data]
+                dataArray: action.payload.data
             }
         }
         case GET_DATA_FAILURE:{
@@ -45,7 +62,7 @@ function reducer(state = initialState, action: actionTypes): StateModel {
             // something goes on...
             return {
                 ...state,
-                statusArray: [...action.payload.data]
+                statusArray: action.payload.data
             }
         }
         case GET_STATUS_FAILURE:{
