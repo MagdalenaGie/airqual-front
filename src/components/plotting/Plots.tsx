@@ -8,7 +8,7 @@ import { StoreState } from '../../store/rootReducer';
 import { DataResponseModel } from '../../store/types';
 import { Spinner } from '../ui/Spinner/Spinner';
 
-const PlotGrid = styled(Fragment)`
+const PlotGrid = styled.div`
   display: grid;
   grid-template-rows: 1fr 4fr;
   height: 100vh;

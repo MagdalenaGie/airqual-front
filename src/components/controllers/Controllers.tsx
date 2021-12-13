@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { ControllerDetails } from "./ControllerDetails";
 import { ControllerTile } from "./ControllerTile";
 import { StatusResponseModel } from "./../../store/types";
 import { StoreState } from "../../store/rootReducer"; 
