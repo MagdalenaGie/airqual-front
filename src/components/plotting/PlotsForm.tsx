@@ -3,9 +3,13 @@ import { DesktopDatePicker, LocalizationProvider, TimePicker } from '@mui/lab';
 import { Button, Divider, Stack, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { getFormattedDate } from '..';
+import dayjs from 'dayjs';
+import { useDispatch, useSelector } from 'react-redux';
+import { StoreState } from '../../store/rootReducer';
+import { getData } from '../../store/actions';
 
 interface Props {
-
 }
 
 export const PlotsForm : React.FC<Props> = () => {
@@ -22,8 +26,8 @@ export const PlotsForm : React.FC<Props> = () => {
         new Date()
     );
 
-    const handleSetStartDate = (newValue: Date | null) => {
-        setStartDate(newValue);
+    const handleSetStartDate = (newValue: any) => {
+        setStartDate(dayjs(newValue).toDate());
     };
 
     const [endDate, setEndDate] = useState<Date | null>(
@@ -31,11 +35,24 @@ export const PlotsForm : React.FC<Props> = () => {
     );
 
     const handleEndDateChange = (newValue: Date | null) => {
-        setEndDate(newValue);
+        setEndDate(dayjs(newValue).toDate());
     };
 
+    const authToken = useSelector((state: StoreState) => state.state.userData?.token)!;
+
+    const dispatch = useDispatch(); 
+
     const handleLoadData = () => {
-        console.log("send request for data")
+        // const body = {
+		// 	start: getFormattedDate(startDate!),
+		// 	stop: getFormattedDate(endDate!),
+		//   };
+		// const res = await axios.post("/history", body, {headers: { Authorization: `Bearer ${token}` }});
+
+        console.log("in handle load");
+        dispatch(getData(getFormattedDate(startDate!), getFormattedDate(endDate!), "haslomaslo"));
+        
+        //dispatch(getData(getFormattedDate(startDate!), getFormattedDate(endDate!), authToken));
     }
 
     const handleExportToCSV = () => {

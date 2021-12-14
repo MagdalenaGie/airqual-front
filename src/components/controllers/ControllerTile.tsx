@@ -2,7 +2,6 @@ import { Card, CardContent, Typography } from '@mui/material';
 import styled from 'styled-components';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { useHistory } from 'react-router-dom';
 
 const CustomCard = styled(Card)({
     margin: '20px',
@@ -13,7 +12,7 @@ const CustomCard = styled(Card)({
         backgroundColor: '#ffebe6',
     },
     '&:hover':{
-        margin: '15px'
+        cursor: 'pointer'
     }
 });
 
@@ -24,24 +23,18 @@ const CustomCardContent = styled(CardContent)({
 
 interface Props {
     controllerName: string,
-    measurements: string,
-    healthCheck: boolean,
-    id: number
+    status: string,
+    healthCheck: boolean
 }
 
-export const ControllerTile : React.FC<Props> = ({controllerName, measurements, healthCheck, id }) => {
+export const ControllerTile : React.FC<Props> = ({controllerName, status, healthCheck}) => {
     var healthCheckIcon = healthCheck 
     ? <CheckCircleOutlineIcon color="success" fontSize="large"/>
     : <ErrorOutlineIcon sx={{ color: 'red' }} fontSize="large"/>
     ; 
-
-    let history = useHistory();
-    const onClickTile = (id: number) => {
-        history.push('/controllers/' + id);
-    }
     
     return (
-        <div onClick={() => onClickTile(id)}>
+        <div>
             <CustomCard sx={{ minWidth: 275 }} className={healthCheck ? "healthy" : "ill"}>
                 <CustomCardContent>
                     <div>
@@ -49,7 +42,7 @@ export const ControllerTile : React.FC<Props> = ({controllerName, measurements, 
                             {controllerName}
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                            {measurements}
+                            Status: {status}
                         </Typography>
                     </div>
                     {healthCheckIcon}

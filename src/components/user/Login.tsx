@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import { Button, FormControl, Input, InputLabel} from '@mui/material';
+import { useDispatch } from "react-redux";
+import { login } from '../../store/actions';
 
 interface Props {
-  setToken: (userToken: string) => void
 }
 
 interface ILoginCredentials {
-    login: string | null,
-    password: string | null
+    login: string ,
+    password: string
 }
 
 export const Form = styled.form`
@@ -22,30 +23,23 @@ export const Form = styled.form`
   margin-top:30vh;
 `;
 
-const loginUser = async (credentials: ILoginCredentials) => {
-    // send async using axios
-    // will return string token
-
-    var token = "123 testtoken"
-    return token;
-}
-
-export const Login : React.FC<Props> = ({setToken}) => {
+export const Login : React.FC<Props> = () => {
 
     var credentials = {} as ILoginCredentials;
+    const dispatch = useDispatch();
+    
+    const loginUser = async (credentials: ILoginCredentials) => {
+        dispatch(login(credentials.login, credentials.password));
+    }
     
     const handleLoginFormSubmit = (async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try{
-            //set credentials
             credentials = {
                 login : (e.currentTarget.elements[0] as HTMLInputElement).value,
                 password: (e.currentTarget.elements[1] as HTMLInputElement).value
             };
-            //authenticate and wait for token
-            var token = await  loginUser(credentials);
-            //after setting token app will automaticly rerender and display main page for logged in user 
-            setToken(token);
+            await  loginUser(credentials);
         }catch(error){
             // act on error 
         }

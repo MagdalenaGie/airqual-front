@@ -10,7 +10,7 @@ interface Props {
     }
 }
 
-// EWRY WEIRD THING GOING ON WITH PROPS - CHECK THAT LATER  
+// WERY WEIRD THING GOING ON WITH PROPS - CHECK THAT LATER  
 
 export const PlotModel : React.FC<Props> = ({plotData}) => {
   var scrWid = window.screen.availWidth - 250;
