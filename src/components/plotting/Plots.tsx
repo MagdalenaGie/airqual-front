@@ -33,15 +33,21 @@ const prepareDataRowForPlot = (responseArray: DataResponseModel[], mesType: keyo
 
 const prepareDateTimeRowForPlot = (responseArray: DataResponseModel[]) => {
     var begin = new Date(responseArray[0]['datetime'])
+    //console.log(begin)
     var end = new Date(responseArray[responseArray.length - 1]['datetime'])
     var timerow = [];
     var tempDate = begin;
     while(tempDate <= end){
+        //console.log(tempDate);
         timerow.push(tempDate.getTime() - tempDate.getTime() % 3600000);
         tempDate = new Date(tempDate.getTime() + 60*60*1000)
     }
     return timerow;
 }
+
+export const prepareDatesForPlot = (date: Date) => {
+    return `${date.toLocaleDateString().slice(0,10)} ${date.toTimeString().slice(0,8)}`;
+  }
 
 export const Plots : React.FC = () => {
 
@@ -53,8 +59,8 @@ export const Plots : React.FC = () => {
     if(!isLoading || defaultData.length>1){
         plots = names.map((el, index) => {
             var timerow = prepareDateTimeRowForPlot(defaultData)
-            var stringTimeRow = timerow.map( el => getFormattedDate(new Date(el)))
-
+            var stringTimeRow = timerow.map( el => prepareDatesForPlot(new Date(el)))
+            //console.log(stringTimeRow)
             var dataProp = {
                 x: stringTimeRow,
                 y: prepareDataRowForPlot(defaultData, el as keyof DataResponseModel, timerow),
