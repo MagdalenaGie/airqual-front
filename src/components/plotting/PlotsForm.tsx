@@ -1,14 +1,31 @@
 import DateAdapter from '@mui/lab/AdapterDayjs';
-// import { CSVLink } from "react-csv";
+import {CSVLink} from 'react-csv';
 import { DesktopDatePicker, LocalizationProvider, TimePicker } from '@mui/lab';
 import { Button, Divider, Stack, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useEffect } from 'react';
 import { getFormattedDate } from '..';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { StoreState } from '../../store/rootReducer';
 import { getData } from '../../store/actions';
+
+const labelsForCSV = [
+    { label: "datetime", key: "datetime" },
+    { label: "CO_m", key: "CO_m" },
+    { label: "CO_sd", key: "CO_sd" },
+    { label: "NO2_m", key: "NO2_m" },
+    { label: "NO2_sd", key: "NO2_sd" },
+    { label: "NO_m", key: "NO_m" },
+    { label: "NO_sd", key: "NO_sd" },
+    { label: "NOx_m", key: "NOx_m" },
+    { label: "NOx_sd", key: "NOx_sd" },
+    { label: "O3_m", key: "O3_m" },
+    { label: "O3_sd", key: "O3_sd" },
+    { label: "SO2_m", key: "SO2_m" },
+    { label: "SO2_sd", key: "SO2_sd" },
+    { label: "PM10", key: "PM10" }
+]
 
 interface Props {
 }
@@ -24,7 +41,8 @@ export const PlotsForm : React.FC<Props> = () => {
         setEndDate(new Date(now - minutes - hour));
     }, [])
 
-    var isLoading = useSelector((state: StoreState) => state.state.isLoadingStatusArray);
+    var isLoading = useSelector((state: StoreState) => state.state.isLoadingDataArray);
+    var defaultData = useSelector((state: StoreState) => state.state.dataArray)!;
 
     const [startDate, setStartDate] = useState<Date | null>(
         new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000 - 60 * 60 * 1000)
@@ -52,10 +70,6 @@ export const PlotsForm : React.FC<Props> = () => {
         }
         console.log("in post ", startDate, endDate)
         dispatch(getData(getFormattedDate(startDate!), getFormattedDate(endDate!), authToken));
-    }
-
-    const handleExportToCSV = () => {
-        console.log("export data to csv")
     }
 
     return (
@@ -119,7 +133,11 @@ export const PlotsForm : React.FC<Props> = () => {
 
                 <Stack spacing={5} alignItems='stretch' justifyContent='center'>
                     <Button onClick={handleLoadData} variant="outlined" disabled={isLoading}>Przedstaw dane</Button>
-                    <Button onClick={handleExportToCSV} variant="outlined" disabled={isLoading}>Eksportuj jako CSV</Button>
+                    <Button variant="outlined" disabled={isLoading}>
+                        {isLoading 
+                        ? "Export to CSV"
+                        : <CSVLink className="btn btn-primary" style={{textDecoration: 'none'}} data={defaultData} headers={labelsForCSV} filename="testCSV.csv">Export to CSV</CSVLink>}
+                    </Button>
                 </Stack>
 
             </Stack>

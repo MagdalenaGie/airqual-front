@@ -1,11 +1,9 @@
 {
-    "NO": "00",
-    "NO2": "00",
-    "NOx": "00",
-    "SO2": "20",
-    "O3": "30",
-    "CO": "00",
-    "PM10": "02",
-    "is_broken": true,
-    "datetime": "2021-11-12 16:00:01"
+    "datetime": "Thu, 16 Dec 2021 23:00:01 GMT",
+    "NOx_Err": "",
+    "SO2_Err": "",
+    "CO_Err": "",
+    "O3_Err": "",
+    "BAM_Err": "",
+    "is_broken": false
 }

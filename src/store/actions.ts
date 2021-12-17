@@ -8,7 +8,7 @@ export const login = (username: string, password: string) => async (
 	dispatch: Dispatch<AuthActionTypes>
 ) => {
 	try {
-		// const res = await axios.post("/login", { username, password }); 
+		const res = await axios.post("/login", { username, password }); 
 		
 		dispatch({
 			type: USER_LOGIN_SUCCESS,
@@ -16,8 +16,8 @@ export const login = (username: string, password: string) => async (
 				user: {
                     login: username,
                     password: password,
-                    //token: res.data.token
-					token: "dzien buraka"
+                    token: res.data.token
+					//token: "dzien buraka"
                 }
 			},
 		});
@@ -57,23 +57,23 @@ export const getData = (start: string, stop: string, token: string) => async (
 			payload: null
 		});
 
-		// const body = {
-		// 	start: start,
-		// 	stop: stop,
-		//   };
-		//const res = await axios.post("/history", body, {headers: { Authorization: `Bearer ${token}` }});
+		const body = {
+			start: start,
+			stop: stop,
+		  };
+		const res = await axios.post("/history", body, {headers: { Authorization: `Bearer ${token}` }});
 
-		console.log("in getData -> before");
-		await sleep(4000);
-		console.log("in getData -> after");
+		// console.log("in getData -> before");
+		// await sleep(4000);
+		// console.log("in getData -> after");
 
-		var res = {
-			data: plotMockData
-		}
+		// var res = {
+		// 	data: plotMockData
+		// }
 
 		// if(token==="haslomaslo"){
 		// 	res = {
-		// 		data: plotMockData2
+		// 		data: plotMockData3
 		// 	}
 		// 	console.log("change")
 		// }
@@ -104,13 +104,13 @@ export const getStatus = (token: string) => async (
 			payload: null
 		});
 
-		// const res = await axios.get("/health_check", {headers: { Authorization: `Bearer ${token}` }});
-		console.log("in getStatus")
-		const res = {
-			data: statusMockData
-		}
+		const res = await axios.get("/health_check", {headers: { Authorization: `Bearer ${token}` }});
+		// console.log("in getStatus")
+		// const res = {
+		// 	data: statusMockData
+		// }
 
-		await sleep(4000);
+		// await sleep(4000);
 
 		dispatch({
 			type: GET_STATUS_SUCCESS,
@@ -130,7 +130,7 @@ export const getStatus = (token: string) => async (
 };
 
 
-//DELETE LATER 
-function sleep(ms: number) {
-	return new Promise(resolve => setTimeout(resolve, ms));
-  }
+// //DELETE LATER 
+// function sleep(ms: number) {
+// 	return new Promise(resolve => setTimeout(resolve, ms));
+//   }

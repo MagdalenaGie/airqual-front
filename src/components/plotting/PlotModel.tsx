@@ -21,6 +21,7 @@ export const PlotModel : React.FC<Props> = ({plotData}) => {
           type: 'scatter',
           mode: 'lines+markers',
           marker: {color: plotData.plotColor},
+          connectgaps: false
         }]}
         layout={ { title: plotData.plotTitle, width: scrWid } }
       />

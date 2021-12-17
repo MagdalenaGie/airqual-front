@@ -36,13 +36,11 @@ export interface DataResponseModel{
 }
 
 export interface StatusResponseModel{
-    NO: string,
-    NO2: string,
-    NOx: string,
-    SO2: string,
-    O3: string,
-    CO: string,
-    PM10: string,
+    NOx_Err: string,
+    SO2_Err: string,
+    CO_Err: string,
+    O3_Err: string,
+    BAM_Err: string,
     is_broken: boolean,
     datetime: string
 }
