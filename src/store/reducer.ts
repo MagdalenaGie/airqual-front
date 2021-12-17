@@ -1,10 +1,12 @@
-import {actionTypes, GET_DATA_FAILURE, GET_DATA_SUCCESS, GET_STATUS_FAILURE, GET_STATUS_SUCCESS, SET_INTERVAL_ID, StateModel, USER_LOGIN_FAILURE, USER_LOGIN_SUCCESS, USER_LOGOUT} from './types';
+import {actionTypes, GET_DATA_FAILURE, GET_DATA_REQUEST_START, GET_DATA_SUCCESS, GET_STATUS_FAILURE, GET_STATUS_REQUEST_START, GET_STATUS_SUCCESS, SET_INTERVAL_ID, StateModel, USER_LOGIN_FAILURE, USER_LOGIN_SUCCESS, USER_LOGOUT} from './types';
 
 const initialState: StateModel = {
     isAuth: false,
     userData: null,
     dataArray: [],
+    isLoadingDataArray: true,
     statusArray: null,
+    isLoadingStatusArray: false,
     error: null,
     timerId: 0
 }
@@ -43,10 +45,17 @@ function reducer(state = initialState, action: actionTypes): StateModel {
                 timerId: 0
             }
         }
+        case GET_DATA_REQUEST_START:{
+            return{
+                ...state,
+                isLoadingDataArray: true
+            }
+        }
         case GET_DATA_SUCCESS:{
             // something goes on...
             return {
                 ...state,
+                isLoadingDataArray: false,
                 dataArray: action.payload.data
             }
         }
@@ -54,14 +63,22 @@ function reducer(state = initialState, action: actionTypes): StateModel {
             // something goes on...
             return {
                 ...state,
+                isLoadingDataArray: false,
                 error: action.payload.message
             }
 
+        }
+        case GET_STATUS_REQUEST_START:{
+            return{
+                ...state,
+                isLoadingStatusArray: true
+            }
         }
         case GET_STATUS_SUCCESS:{
             // something goes on...
             return {
                 ...state,
+                isLoadingStatusArray: false,
                 statusArray: action.payload.data
             }
         }
@@ -69,6 +86,7 @@ function reducer(state = initialState, action: actionTypes): StateModel {
             // something goes on...
             return {
                 ...state,
+                isLoadingStatusArray: false,
                 error: action.payload.message
             }
         }

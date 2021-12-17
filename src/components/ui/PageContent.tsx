@@ -24,8 +24,12 @@ export const PageContent : React.FC<Props> = () => {
 
   const dispatch = useDispatch(); 
   const refreshData = () => {
-    const stop = new Date();
-    const start = new Date(stop.getTime() - 360000);
+    var now = new Date().getTime();
+    var minutes = now % 3600000;
+    var hour = 60 * 60 * 1000;
+    var week = 7 * 24 * 60 * 60 * 1000;
+    var start = new Date(now - week - minutes - hour);
+    var stop = new Date(now - minutes - hour);
     dispatch(getData(getFormattedDate(start), getFormattedDate(stop), authToken));
     dispatch(getStatus(authToken));
   }

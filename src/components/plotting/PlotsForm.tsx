@@ -1,4 +1,5 @@
 import DateAdapter from '@mui/lab/AdapterDayjs';
+// import { CSVLink } from "react-csv";
 import { DesktopDatePicker, LocalizationProvider, TimePicker } from '@mui/lab';
 import { Button, Divider, Stack, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
@@ -17,13 +18,16 @@ export const PlotsForm : React.FC<Props> = () => {
     useEffect(()=> {
         var now = new Date().getTime();
         var minutes = now % 3600000;
-        var hours = now % (3600000 * 24);
-        setStartDate(new Date(now - hours - 3600000));
-        setEndDate(new Date(now - minutes));
+        var hour = 60 * 60 * 1000;
+        var week = 7 * 24 * 60 * 60 * 1000;
+        setStartDate(new Date(now - week - minutes - hour));
+        setEndDate(new Date(now - minutes - hour));
     }, [])
 
+    var isLoading = useSelector((state: StoreState) => state.state.isLoadingStatusArray);
+
     const [startDate, setStartDate] = useState<Date | null>(
-        new Date()
+        new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000 - 60 * 60 * 1000)
     );
 
     const handleSetStartDate = (newValue: any) => {
@@ -43,16 +47,11 @@ export const PlotsForm : React.FC<Props> = () => {
     const dispatch = useDispatch(); 
 
     const handleLoadData = () => {
-        // const body = {
-		// 	start: getFormattedDate(startDate!),
-		// 	stop: getFormattedDate(endDate!),
-		//   };
-		// const res = await axios.post("/history", body, {headers: { Authorization: `Bearer ${token}` }});
-
-        console.log("in handle load");
-        dispatch(getData(getFormattedDate(startDate!), getFormattedDate(endDate!), "haslomaslo"));
-        
-        //dispatch(getData(getFormattedDate(startDate!), getFormattedDate(endDate!), authToken));
+        if(startDate!.getTime() > endDate!.getTime()){
+            console.log("zły przedział - alert")
+        }
+        console.log("in post ", startDate, endDate)
+        dispatch(getData(getFormattedDate(startDate!), getFormattedDate(endDate!), authToken));
     }
 
     const handleExportToCSV = () => {
@@ -119,8 +118,8 @@ export const PlotsForm : React.FC<Props> = () => {
                 </Stack>
 
                 <Stack spacing={5} alignItems='stretch' justifyContent='center'>
-                    <Button onClick={handleLoadData} variant="outlined">Przedstaw dane</Button>
-                    <Button onClick={handleExportToCSV} variant="outlined">Eksportuj jako CSV</Button>
+                    <Button onClick={handleLoadData} variant="outlined" disabled={isLoading}>Przedstaw dane</Button>
+                    <Button onClick={handleExportToCSV} variant="outlined" disabled={isLoading}>Eksportuj jako CSV</Button>
                 </Stack>
 
             </Stack>

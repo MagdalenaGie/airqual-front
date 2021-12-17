@@ -6,31 +6,33 @@ export const USER_LOGOUT = "USER_LOGOUT";
 
 export const SET_INTERVAL_ID = "SET_INTERVAL_ID";
 
+export const GET_DATA_REQUEST_START = "GET_DATA_REQUEST_START";
 export const GET_DATA_REQUEST = "GET_DATA_REQUEST";
 export const GET_DATA_SUCCESS = "GET_DATA_SUCCESS";
 export const GET_DATA_FAILURE = "GET_DATA_FAILURE";
 
+export const GET_STATUS_REQUEST_START = "GET_STATUS_REQUEST_START";
 export const GET_STATUS_REQUEST = "GET_STATUS_REQUEST";
 export const GET_STATUS_SUCCESS = "GET_STATUS_SUCCESS";
 export const GET_STATUS_FAILURE = "GET_STATUS_FAILURE";
 
 export interface DataResponseModel{
     id: number,
-    dev_id: number,
+    dev_id: string,
     datetime: string,
-    NO_m: string,
-    NO_sd: string,
-    NO2_m: string,
-    NO2_sd: string,
-    NOx_m: string,
-    NOx_sd: string,
-    SO2_m: string,
-    SO2_sd: string,
-    O3_m: string,
-    O3_sd: string,
-    CO_m: string,
-    CO_sd: string,
-    PM10: string
+    NO_m: number,
+    NO_sd: number,
+    NO2_m: number,
+    NO2_sd: number,
+    NOx_m: number,
+    NOx_sd: number,
+    SO2_m: number,
+    SO2_sd: number,
+    O3_m: number,
+    O3_sd: number,
+    CO_m: number,
+    CO_sd: number,
+    PM10: number
 }
 
 export interface StatusResponseModel{
@@ -55,7 +57,9 @@ export interface StateModel{
     isAuth: boolean,
     userData: UserDataModel | null,
     dataArray: DataResponseModel[],
+    isLoadingDataArray: boolean,
     statusArray: StatusResponseModel | null,
+    isLoadingStatusArray: boolean,
     error: string | null,
     timerId: number
 }
@@ -86,6 +90,11 @@ interface SetIntervalId {
     };
 }
 
+interface GetDataStart {
+    type: typeof GET_DATA_REQUEST_START;
+    payload: null;
+}
+
 interface GetDataSuccess {
     type: typeof GET_DATA_SUCCESS;
     payload: {
@@ -98,6 +107,11 @@ interface GetDataFailure {
     payload: {
         message: string
     }
+}
+
+interface GetStatusStart {
+    type: typeof GET_STATUS_REQUEST_START;
+    payload: null;
 }
 
 interface GetStatusSuccess {
@@ -114,7 +128,7 @@ interface GetStatusFailure {
     }
 }
 
-export type actionTypes = UserLoginSuccess | UserLoginFailure | UserLogout | SetIntervalId | GetDataSuccess | GetDataFailure| GetStatusSuccess | GetStatusFailure;
+export type actionTypes = UserLoginSuccess | UserLoginFailure | UserLogout | SetIntervalId | GetDataStart | GetDataSuccess | GetDataFailure | GetStatusStart | GetStatusSuccess | GetStatusFailure;
 export type AuthActionTypes = UserLoginSuccess | UserLoginFailure | UserLogout;
-export type DataActionTypes = GetDataSuccess | GetDataFailure;
-export type StatusActionTypes = GetStatusSuccess | GetStatusFailure;
+export type DataActionTypes = GetDataStart | GetDataSuccess | GetDataFailure;
+export type StatusActionTypes = GetStatusStart | GetStatusSuccess | GetStatusFailure;
