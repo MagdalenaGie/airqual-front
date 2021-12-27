@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const getFormattedDate = (date: Date) => {
-  return `${date.toISOString().slice(0, 10)} ${date.toLocaleTimeString('pl-PL')}`;
+  return `${date.toISOString().slice(0, 10)} ${date.toISOString().slice(11, 19)}`;
 }
 
 export const PageContent : React.FC<Props> = () => {

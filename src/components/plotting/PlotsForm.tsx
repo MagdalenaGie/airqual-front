@@ -6,6 +6,7 @@ import { Fragment, useState } from 'react';
 import { useEffect } from 'react';
 import { getFormattedDate } from '..';
 import dayjs from 'dayjs';
+import locale from 'dayjs/locale/pl';
 import { useDispatch, useSelector } from 'react-redux';
 import { StoreState } from '../../store/rootReducer';
 import { getData } from '../../store/actions';
@@ -43,8 +44,12 @@ export const PlotsForm : React.FC<Props> = () => {
 
     var isLoading = useSelector((state: StoreState) => state.state.isLoadingDataArray);
     var defaultData = useSelector((state: StoreState) => state.state.dataArray)!;
-
-    const [showError, setShowError] = useState(false);
+    
+    const [showError, setShowError] = useState(
+        {
+            shouldRender: false,
+            message: ""
+        });
 
     const [startDate, setStartDate] = useState<Date | null>(
         new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000 - 60 * 60 * 1000)
@@ -67,19 +72,27 @@ export const PlotsForm : React.FC<Props> = () => {
     const dispatch = useDispatch(); 
 
     const handleLoadData = () => {
-        if(startDate!.getTime() > endDate!.getTime()){
-            setShowError(true)
+        if(startDate!.getTime() >= endDate!.getTime()){
+            setShowError({
+                shouldRender: true,
+                message: "Nieprawidłowy przedział dat! Data początkowa jest większa lub równa względem daty końcowej"
+            })
+        }else if(endDate!.getTime() + 3600000 * 2 >= new Date().getTime()){
+            setShowError({
+                shouldRender: true,
+                message: "Nieprawidłowy przedział dat! Data końcowa jest późniejsza niż ostatni dostępny w bazie zapis pomiarów"
+            })
         }else{
-            console.log("in post ", startDate, endDate)
-            console.log(getFormattedDate(startDate!), getFormattedDate(endDate!))
-            dispatch(getData(getFormattedDate(startDate!), getFormattedDate(endDate!), authToken));
+            var newStart = new Date(startDate!.getTime() + 3600000);
+            var newEnd = new Date(endDate!.getTime() + 3600000);
+            dispatch(getData(getFormattedDate(newStart!), getFormattedDate(newEnd!), authToken));
         }
     }
 
     return (
         <Fragment>
-            {showError ? <Alert variant="outlined" severity="error" style={{margin: "20px"}} onClose={() => {setShowError(false)} }>Wybrano niepoprawny przedział dat!</Alert> : null}
-            <LocalizationProvider dateAdapter={DateAdapter}>
+            {showError.shouldRender ? <Alert variant="outlined" severity="error" style={{margin: "20px"}} onClose={() => {setShowError({shouldRender: false, message:""})} }>{showError.message}</Alert> : null}
+            <LocalizationProvider dateAdapter={DateAdapter} locale={locale}>
                 <Stack
                 direction="row"
                 divider={<Divider orientation="vertical" flexItem />}
@@ -94,16 +107,18 @@ export const PlotsForm : React.FC<Props> = () => {
                     component="div"
                     justifyContent='center'
                     >
-                        Wybierz przedział czasowy:
+                        Wybierz przedział czasowy:<br/>
+                        (w formacie GMT)
                     </Typography>
                     
                     <Stack spacing={3}>
                         <DesktopDatePicker
                         label="Data"
                         value={startDate}
+                        mask="__.__.____"
                         maxDate={dayjs()}
                         onChange={handleSetStartDate}
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) =><TextField {...params} />}
                         />
                         <TimePicker
                         openTo="hours"
@@ -122,6 +137,7 @@ export const PlotsForm : React.FC<Props> = () => {
                         <DesktopDatePicker
                         label="Data"
                         value={endDate}
+                        mask="__.__.____"
                         // @ts-ignore
                         maxDate={dayjs()}
                         onChange={handleEndDateChange}

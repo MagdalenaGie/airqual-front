@@ -29,11 +29,11 @@ export const Controllers : React.FC<Props> = () => {
     if(statusData !== null && !isLoading){
         controllerList = (
             <ControllersList>
-                <ControllerTile controllerName={"NOx_Err"} status={statusData.NOx_Err} healthCheck={statusData.NOx_Err===""} />
-                <ControllerTile controllerName={"SO2_Err"} status={statusData.SO2_Err} healthCheck={statusData.SO2_Err===""} />
-                <ControllerTile controllerName={"O3_Err"} status={statusData.O3_Err} healthCheck={statusData.O3_Err===""} />
-                <ControllerTile controllerName={"CO_Err"} status={statusData.CO_Err} healthCheck={statusData.CO_Err===""} />
-                <ControllerTile controllerName={"BAM_Err"} status={statusData.BAM_Err} healthCheck={statusData.BAM_Err===""} />
+                <ControllerTile controllerName={"NOx_Err"} status={statusData.NOx_Err} healthCheck={statusData.NOx_Err==="00"} />
+                <ControllerTile controllerName={"SO2_Err"} status={statusData.SO2_Err} healthCheck={statusData.SO2_Err==="00"} />
+                <ControllerTile controllerName={"O3_Err"} status={statusData.O3_Err} healthCheck={statusData.O3_Err==="00"} />
+                <ControllerTile controllerName={"CO_Err"} status={statusData.CO_Err} healthCheck={statusData.CO_Err==="00"} />
+                <ControllerTile controllerName={"BAM_Err"} status={statusData.BAM_Err} healthCheck={statusData.BAM_Err==="00"} />
             </ControllersList>
         )
     }

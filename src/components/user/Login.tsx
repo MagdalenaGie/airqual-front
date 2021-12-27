@@ -1,7 +1,9 @@
 import styled from 'styled-components';
-import { Button, FormControl, Input, InputLabel} from '@mui/material';
-import { useDispatch } from "react-redux";
+import { Alert, Button, FormControl, Input, InputLabel} from '@mui/material';
+import { useDispatch, useSelector } from "react-redux";
 import { login } from '../../store/actions';
+import { useState } from 'react';
+import { StoreState } from '../../store/rootReducer';
 
 interface Props {
 }
@@ -25,6 +27,14 @@ export const Form = styled.form`
 
 export const Login : React.FC<Props> = () => {
 
+    const [showError, setShowError] = useState(
+        {
+            shouldRender: false,
+            message: ""
+        });
+
+    var isAuth = useSelector((state: StoreState) => state.state.isAuth);
+
     var credentials = {} as ILoginCredentials;
     const dispatch = useDispatch();
     
@@ -39,14 +49,25 @@ export const Login : React.FC<Props> = () => {
                 login : (e.currentTarget.elements[0] as HTMLInputElement).value,
                 password: (e.currentTarget.elements[1] as HTMLInputElement).value
             };
-            await  loginUser(credentials);
+            loginUser(credentials).then(() => {
+                if(!isAuth){
+                    setShowError({
+                        shouldRender: true,
+                        message: "Coś poszło nie tak podczas autentykacji! Sprawdź poprawność wprowadzonych danych"
+                    })
+                }
+            })
         }catch(error){
-            // act on error 
+            setShowError({
+                shouldRender: true,
+                message: "Coś poszło nie tak podczas autentykacji! Spróbuj ponownie później"
+            })
         }
     });
 
     return (
         <Form onSubmit={handleLoginFormSubmit}>
+            {showError.shouldRender ? <Alert variant="outlined" severity="error" style={{margin: "20px"}} onClose={() => {setShowError({shouldRender: false, message:""})} }>{showError.message}</Alert> : null}
             <FormControl>
             <InputLabel htmlFor="login">Login</InputLabel>
                 <Input type="text" name="login" id="login" required/>

@@ -3,30 +3,32 @@ import {actionTypes, GET_DATA_FAILURE, GET_DATA_REQUEST_START, GET_DATA_SUCCESS,
 const initialState: StateModel = {
     isAuth: false,
     userData: null,
+    errorLogin: null,
     dataArray: [],
     isLoadingDataArray: true,
+    errorData: null,
     statusArray: null,
     isLoadingStatusArray: false,
-    error: null,
+    errorStatus: null,
     timerId: 0
 }
 
 function reducer(state = initialState, action: actionTypes): StateModel {
     switch(action.type){
         case USER_LOGIN_SUCCESS:{
-            // something goes on...
+            localStorage.setItem("token", action.payload.user.token);
             return {
                 ...state,
                 userData: action.payload.user,
-                isAuth: true
+                isAuth: true,
+                errorLogin: null
             }
         }
         case USER_LOGIN_FAILURE:{
-            // something goes on...
             return {
                 ...state,
                 isAuth: false,
-                error: action.payload.message
+                errorLogin: action.payload.message
             }
         }
         case SET_INTERVAL_ID:{
@@ -36,7 +38,7 @@ function reducer(state = initialState, action: actionTypes): StateModel {
             }
         }
         case USER_LOGOUT:{
-            // something goes on...
+            localStorage.removeItem("token")
             clearInterval(state.timerId);
             return {
                 ...state,
@@ -48,46 +50,46 @@ function reducer(state = initialState, action: actionTypes): StateModel {
         case GET_DATA_REQUEST_START:{
             return{
                 ...state,
-                isLoadingDataArray: true
+                isLoadingDataArray: true,
+                errorData: null
             }
         }
         case GET_DATA_SUCCESS:{
-            // something goes on...
             return {
                 ...state,
                 isLoadingDataArray: false,
-                dataArray: action.payload.data
+                dataArray: action.payload.data,
+                errorData: null
             }
         }
         case GET_DATA_FAILURE:{
-            // something goes on...
             return {
                 ...state,
                 isLoadingDataArray: false,
-                error: action.payload.message
+                errorData: action.payload.message
             }
 
         }
         case GET_STATUS_REQUEST_START:{
             return{
                 ...state,
-                isLoadingStatusArray: true
+                isLoadingStatusArray: true,
+                errorStatus: null
             }
         }
         case GET_STATUS_SUCCESS:{
-            // something goes on...
             return {
                 ...state,
                 isLoadingStatusArray: false,
-                statusArray: action.payload.data
+                statusArray: action.payload.data,
+                errorStatus: null
             }
         }
         case GET_STATUS_FAILURE:{
-            // something goes on...
             return {
                 ...state,
                 isLoadingStatusArray: false,
-                error: action.payload.message
+                errorStatus: action.payload.message
             }
         }
         default:

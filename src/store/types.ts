@@ -54,11 +54,13 @@ export interface UserDataModel{
 export interface StateModel{
     isAuth: boolean,
     userData: UserDataModel | null,
+    errorLogin: string | null,
     dataArray: DataResponseModel[],
     isLoadingDataArray: boolean,
+    errorData: string | null,
     statusArray: StatusResponseModel | null,
     isLoadingStatusArray: boolean,
-    error: string | null,
+    errorStatus: string | null,
     timerId: number
 }
 
