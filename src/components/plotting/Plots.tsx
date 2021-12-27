@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { StoreState } from '../../store/rootReducer';
 import { DataResponseModel } from '../../store/types';
 import { Spinner } from '../ui/Spinner/Spinner';
-import { useState } from 'react';
 
 const PlotGrid = styled.div`
   display: grid;
