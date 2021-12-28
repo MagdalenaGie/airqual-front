@@ -1,9 +1,9 @@
 {
     "datetime": "Thu, 16 Dec 2021 23:00:01 GMT",
-    "NOx_Err": "",
-    "SO2_Err": "",
-    "CO_Err": "",
-    "O3_Err": "",
-    "BAM_Err": "",
+    "NOx_Err": "00",
+    "SO2_Err": "00",
+    "CO_Err": "Gołąb siedzi na czujniku",
+    "O3_Err": "00",
+    "BAM_Err": "00",
     "is_broken": false
 }

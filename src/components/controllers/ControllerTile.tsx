@@ -10,9 +10,6 @@ const CustomCard = styled(Card)({
     },
     '&.ill': {
         backgroundColor: '#ffebe6',
-    },
-    '&:hover':{
-        cursor: 'pointer'
     }
 });
 

@@ -34,34 +34,33 @@ interface Props {
 export const PlotsForm : React.FC<Props> = () => {
 
     useEffect(()=> {
-        var now = new Date().getTime();
+        var currDate = new Date(); 
+        var now = currDate.getTime();
         var minutes = now % 3600000;
         var hour = 60 * 60 * 1000;
         var week = 7 * 24 * 60 * 60 * 1000;
-        setStartDate(new Date(now - week - minutes - hour));
-        setEndDate(new Date(now - minutes - hour));
+        var timezone = currDate.getTimezoneOffset() * 60000;
+        console.log(timezone)
+        setStartDate(new Date(now - week - minutes - hour + timezone));
+        setEndDate(new Date(now - minutes - hour + timezone));
     }, [])
 
     var isLoading = useSelector((state: StoreState) => state.state.isLoadingDataArray);
     var defaultData = useSelector((state: StoreState) => state.state.dataArray)!;
-    
+
     const [showError, setShowError] = useState(
         {
             shouldRender: false,
             message: ""
         });
 
-    const [startDate, setStartDate] = useState<Date | null>(
-        new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000 - 60 * 60 * 1000)
-    );
+    const [startDate, setStartDate] = useState<Date | null>(new Date());
 
     const handleSetStartDate = (newValue: any) => {
         setStartDate(dayjs(newValue).toDate());
     };
 
-    const [endDate, setEndDate] = useState<Date | null>(
-        new Date()
-    );
+    const [endDate, setEndDate] = useState<Date | null>(new Date());
 
     const handleEndDateChange = (newValue: Date | null) => {
         setEndDate(dayjs(newValue).toDate());
@@ -72,19 +71,23 @@ export const PlotsForm : React.FC<Props> = () => {
     const dispatch = useDispatch(); 
 
     const handleLoadData = () => {
+        var timezone = new Date().getTimezoneOffset() * 60000;
         if(startDate!.getTime() >= endDate!.getTime()){
             setShowError({
                 shouldRender: true,
                 message: "Nieprawidłowy przedział dat! Data początkowa jest większa lub równa względem daty końcowej"
             })
-        }else if(endDate!.getTime() + 3600000 * 2 >= new Date().getTime()){
+        }else if((endDate!.getTime() + 3600000 * 1 - timezone) >= new Date().getTime()){
+            console.log(new Date(endDate!.getTime() + 3600000 * 2 + timezone), new Date())
             setShowError({
                 shouldRender: true,
                 message: "Nieprawidłowy przedział dat! Data końcowa jest późniejsza niż ostatni dostępny w bazie zapis pomiarów"
             })
         }else{
-            var newStart = new Date(startDate!.getTime() + 3600000);
-            var newEnd = new Date(endDate!.getTime() + 3600000);
+            var newStart = new Date(startDate!.getTime() - timezone);
+            var newEnd = new Date(endDate!.getTime() - timezone);
+            console.log(newStart, newEnd);
+            console.log(getFormattedDate(newStart!), getFormattedDate(newEnd!));
             dispatch(getData(getFormattedDate(newStart!), getFormattedDate(newEnd!), authToken));
         }
     }

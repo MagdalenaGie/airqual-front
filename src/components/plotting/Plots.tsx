@@ -9,7 +9,6 @@ import { Spinner } from '../ui/Spinner/Spinner';
 const PlotGrid = styled.div`
   display: grid;
   grid-template-rows: 1fr 4fr;
-  height: 100vh;
 `;
 
 const names = ['CO_m', 'NO2_m', 'NO_m', 'NOx_m', 'O3_m', 'SO2_m', 'PM10'];

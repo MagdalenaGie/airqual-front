@@ -23,7 +23,7 @@ export const PlotModel : React.FC<Props> = ({plotData}) => {
           marker: {color: plotData.plotColor},
           connectgaps: false
         }]}
-        layout={ { title: plotData.plotTitle, width: scrWid } }
+        layout={ { title: plotData.plotTitle, width: scrWid, height: 400} }
       />
     );
 }
