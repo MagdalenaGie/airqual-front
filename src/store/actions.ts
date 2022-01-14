@@ -2,7 +2,7 @@ import axios from './../axios';
 import { Dispatch } from "redux";
 import plotMockData from "./../components/plotting/mockResponse3.json";
 import statusMockData from './../components/controllers/mockResponse.json';
-import { AuthActionTypes, DataActionTypes, GET_DATA_FAILURE, GET_DATA_REQUEST_START, GET_DATA_SUCCESS, GET_STATUS_FAILURE, GET_STATUS_REQUEST_START, GET_STATUS_SUCCESS, SET_INTERVAL_ID, StatusActionTypes, USER_LOGIN_FAILURE, USER_LOGIN_SUCCESS, USER_LOGOUT } from './types';
+import { AuthActionTypes, DataActionTypes, GET_DATA_FAILURE, GET_DATA_REQUEST_START, GET_DATA_SUCCESS, GET_STATUS_FAILURE, GET_STATUS_REQUEST_START, GET_STATUS_SUCCESS, SET_INTERVAL_ID, StatusActionTypes, USER_ALREADY_AUTH, USER_LOGIN_FAILURE, USER_LOGIN_SUCCESS, USER_LOGOUT } from './types';
 
 export const login = (username: string, password: string) => async (
 	dispatch: Dispatch<AuthActionTypes>
@@ -46,6 +46,15 @@ export const logout = () => {
     return{
         type: USER_LOGOUT,
         payload: null
+    };
+}
+
+export const setToken = (token: string) => {
+    return{
+        type: USER_ALREADY_AUTH,
+        payload:{
+			token: token
+		}
     };
 }
 

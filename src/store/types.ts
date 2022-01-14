@@ -2,6 +2,8 @@ export const USER_LOGIN_REQUEST = "USER_LOGIN_REQUEST";
 export const USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
 export const USER_LOGIN_FAILURE = "USER_LOGIN_FAILURE";
 
+export const USER_ALREADY_AUTH = "USER_ALREADY_AUTH";
+
 export const USER_LOGOUT = "USER_LOGOUT";
 
 export const SET_INTERVAL_ID = "SET_INTERVAL_ID";
@@ -71,6 +73,13 @@ interface UserLoginSuccess {
     }
 }
 
+interface UserAlreadyAuth {
+    type: typeof USER_ALREADY_AUTH;
+    payload: {
+        token: string
+    }
+}
+
 interface UserLoginFailure {
     type: typeof USER_LOGIN_FAILURE;
     payload: {
@@ -128,7 +137,7 @@ interface GetStatusFailure {
     }
 }
 
-export type actionTypes = UserLoginSuccess | UserLoginFailure | UserLogout | SetIntervalId | GetDataStart | GetDataSuccess | GetDataFailure | GetStatusStart | GetStatusSuccess | GetStatusFailure;
-export type AuthActionTypes = UserLoginSuccess | UserLoginFailure | UserLogout;
+export type actionTypes = UserLoginSuccess | UserAlreadyAuth | UserLoginFailure | UserLogout | SetIntervalId | GetDataStart | GetDataSuccess | GetDataFailure | GetStatusStart | GetStatusSuccess | GetStatusFailure;
+export type AuthActionTypes = UserLoginSuccess | UserAlreadyAuth | UserLoginFailure | UserLogout;
 export type DataActionTypes = GetDataStart | GetDataSuccess | GetDataFailure;
 export type StatusActionTypes = GetStatusStart | GetStatusSuccess | GetStatusFailure;

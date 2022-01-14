@@ -10,8 +10,6 @@ interface Props {
     }
 }
 
-// WERY WEIRD THING GOING ON WITH PROPS - CHECK THAT LATER  
-
 export const PlotModel : React.FC<Props> = ({plotData}) => {
   var scrWid = window.screen.availWidth - 250;
     return (
@@ -23,7 +21,7 @@ export const PlotModel : React.FC<Props> = ({plotData}) => {
           marker: {color: plotData.plotColor},
           connectgaps: false
         }]}
-        layout={ { title: plotData.plotTitle, width: scrWid, height: 400} }
+        layout={ { title: plotData.plotTitle, width: scrWid} }
       />
     );
 }

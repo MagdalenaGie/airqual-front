@@ -1,4 +1,4 @@
-import {actionTypes, GET_DATA_FAILURE, GET_DATA_REQUEST_START, GET_DATA_SUCCESS, GET_STATUS_FAILURE, GET_STATUS_REQUEST_START, GET_STATUS_SUCCESS, SET_INTERVAL_ID, StateModel, USER_LOGIN_FAILURE, USER_LOGIN_SUCCESS, USER_LOGOUT} from './types';
+import {actionTypes, GET_DATA_FAILURE, GET_DATA_REQUEST_START, GET_DATA_SUCCESS, GET_STATUS_FAILURE, GET_STATUS_REQUEST_START, GET_STATUS_SUCCESS, SET_INTERVAL_ID, StateModel, USER_ALREADY_AUTH, USER_LOGIN_FAILURE, USER_LOGIN_SUCCESS, USER_LOGOUT} from './types';
 
 const initialState: StateModel = {
     isAuth: false,
@@ -23,6 +23,17 @@ function reducer(state = initialState, action: actionTypes): StateModel {
                 isAuth: true,
                 errorLogin: null
             }
+        }
+        case USER_ALREADY_AUTH: {
+                return {
+                    ...state,
+                    isAuth: true,
+                    userData:{
+                        login:"",
+                        password:"",
+                        token: action.payload.token
+                    }
+                }
         }
         case USER_LOGIN_FAILURE:{
             return {
