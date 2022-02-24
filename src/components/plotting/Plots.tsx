@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { StoreState } from '../../store/rootReducer';
 import { DataResponseModel } from '../../store/types';
 import { Spinner } from '../ui/Spinner/Spinner';
+import { Alert } from '@mui/material';
 
 const PlotGrid = styled.div`
   display: grid;
@@ -68,11 +69,14 @@ export const Plots : React.FC = () => {
             return <PlotModel key={el} plotData={dataProp}/>
         })
     }
+
+    let errorMessage = "Wystąpił problem z załadowaniem danych!";
     
     return (
         <PlotGrid>
             <PlotsForm/>
             { (isLoading) ? <Spinner/> : plots}
+            { ( ! isLoading && defaultData.length === 0) ? <Alert variant="outlined" severity="error" style={{margin: "20px"} }>{errorMessage}</Alert> : null}
         </PlotGrid>
     );
 }

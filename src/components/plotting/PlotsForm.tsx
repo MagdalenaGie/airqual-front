@@ -39,10 +39,8 @@ export const PlotsForm : React.FC<Props> = () => {
         var minutes = now % 3600000;
         var hour = 60 * 60 * 1000;
         var week = 7 * 24 * 60 * 60 * 1000;
-        var timezone = currDate.getTimezoneOffset() * 60000;
-        console.log(timezone)
-        setStartDate(new Date(now - week - minutes - hour + timezone));
-        setEndDate(new Date(now - minutes - hour + timezone));
+        setStartDate(new Date(now - week - minutes - hour ));
+        setEndDate(new Date(now - minutes - hour ));
     }, [])
 
     var isLoading = useSelector((state: StoreState) => state.state.isLoadingDataArray);
@@ -72,24 +70,11 @@ export const PlotsForm : React.FC<Props> = () => {
 
     const handleLoadData = () => {
         var timezone = new Date().getTimezoneOffset() * 60000;
-        if(startDate!.getTime() >= endDate!.getTime()){
-            setShowError({
-                shouldRender: true,
-                message: "Nieprawidłowy przedział dat! Data początkowa jest większa lub równa względem daty końcowej"
-            })
-        }else if((endDate!.getTime() + 3600000 * 1 - timezone) >= new Date().getTime()){
-            console.log(new Date(endDate!.getTime() + 3600000 * 2 + timezone), new Date())
-            setShowError({
-                shouldRender: true,
-                message: "Nieprawidłowy przedział dat! Data końcowa jest późniejsza niż ostatni dostępny w bazie zapis pomiarów"
-            })
-        }else{
-            var newStart = new Date(startDate!.getTime() - timezone);
-            var newEnd = new Date(endDate!.getTime() - timezone);
-            console.log(newStart, newEnd);
-            console.log(getFormattedDate(newStart!), getFormattedDate(newEnd!));
-            dispatch(getData(getFormattedDate(newStart!), getFormattedDate(newEnd!), authToken));
-        }
+        var newStart = new Date(startDate!.getTime() - timezone);
+        var newEnd = new Date(endDate!.getTime() - timezone);
+        console.log(newStart, newEnd);
+        console.log(getFormattedDate(newStart!), getFormattedDate(newEnd!));
+        dispatch(getData(getFormattedDate(newStart!), getFormattedDate(newEnd!), authToken));
     }
 
     return (

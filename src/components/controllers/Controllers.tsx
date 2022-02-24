@@ -4,7 +4,8 @@ import { StatusResponseModel } from "./../../store/types";
 import { StoreState } from "../../store/rootReducer"; 
 import { useSelector } from "react-redux";
 import { Spinner } from "../ui/Spinner/Spinner";
-import { ReactElement } from "react";
+import { Fragment, ReactElement } from "react";
+import { Alert } from "@mui/material";
 
 // const ControllersLayout = styled.div({
 //     display: 'grid',
@@ -38,9 +39,13 @@ export const Controllers : React.FC<Props> = () => {
         )
     }
 
-    var spinner = <Spinner/>
+    let errorMessage = "Wystąpił problem z załadowaniem danych!";
 
     return (
-        (isLoading || statusData === null) ? spinner : controllerList
+        <Fragment>
+            { isLoading ? <Spinner/> : null}
+            { ( ! isLoading && statusData !== null) ? controllerList : null}
+            { ( ! isLoading && statusData === null) ? <Alert variant="outlined" severity="error" style={{margin: "20px"} }>{errorMessage}</Alert> : null}
+        </Fragment>
     );
 }
